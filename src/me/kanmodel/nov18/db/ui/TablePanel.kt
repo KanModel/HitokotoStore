@@ -1,7 +1,7 @@
 package me.kanmodel.nov18.db.ui
 
 import me.kanmodel.nov18.db.database.DataQuery
-import me.kanmodel.nov18.db.database.SqlQuery
+import me.kanmodel.nov18.db.database.SqlExecutor
 
 import javax.swing.*
 import javax.swing.table.DefaultTableModel
@@ -68,19 +68,10 @@ internal class TablePanel : JPanel() {
         setColumn(table, 0, 60)
         setColumn(table, 1, 550)
 
-
-//        val sorter = TableRowSorter<DefaultTableModel>(tableModel)
-//         设置只有第一列可以排序，其他均不可以
-//        sorter.setSortable(0, true)
-//        for (i in 1..2) {
-//            sorter.setSortable(i, false)
-//        }
-//        table.rowSorter = sorter
         hBox1.add(jScrollPane)
     }
 
     private fun initButton() {
-
         val addBtn = JButton("添加")
         addBtn.addActionListener {
             tableModel.insertRow(0, arrayOf<Any>(0, "", ""))
@@ -179,7 +170,7 @@ internal class TablePanel : JPanel() {
             val from = table.getValueAt(row, 2).toString()
             println(id + hikotoko + from + row)
             (table.model as DefaultTableModel).removeRow(row)
-            SqlQuery.deleteById(id)
+            SqlExecutor.deleteById(id)
         }
     }
 

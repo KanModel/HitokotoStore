@@ -59,7 +59,7 @@ class UpdateTableListener(private val tableModel: TableModel, private val jTable
                     row: Int, column: Int
                 ): Component {
 //                    background = if (row == targetRow) {
-                    background = if (Pair(row, targetColumn) in updateList) {
+                    background = if (Pair(row, column) in updateList) {
                         Color(206, 231, 255) //设置偶数行底色
                     } else {
                         Color.white //设置奇数行底色

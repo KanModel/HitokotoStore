@@ -1,5 +1,6 @@
 package me.kanmodel.nov18.db.database
 
+import me.kanmodel.nov18.db.spider.Hitokoto
 import java.util.*
 
 /**
@@ -19,7 +20,7 @@ class DataQuery {
             val vec = Vector<Any>()
             val dataVector = Vector<Vector<Any>>()
 
-            val rs = SqlQuery.queryByID(id)
+            val rs = SqlExecutor.queryByID(id)
             if (rs != null) {
                 if (rs.next()) {
                     var id = rs.getInt("id")
@@ -49,7 +50,7 @@ class DataQuery {
             val vec = Vector<Any>()
             val dataVector = Vector<Vector<Any>>()
 
-            val rs = SqlQuery.queryByFrom(from)
+            val rs = SqlExecutor.queryByFrom(from)
             if (rs != null) {
                 if (rs.next()) {
                     var id = rs.getInt("id")
@@ -73,6 +74,28 @@ class DataQuery {
                 }
             }
             return dataVector
+        }
+
+        fun queryByRandom(): Hitokoto? {
+            val rs = SqlExecutor.queryRandom()
+            if (rs!!.next()) {
+                return Hitokoto(
+                    rs.getInt("id"),
+                    rs.getString("hitokoto"),
+                    rs.getString("type"),
+                    rs.getString("from"),
+                    rs.getString("creator"),
+                    rs.getString("created_at")
+                )
+            } else {
+                return null
+            }
+        }
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+//            queryByRandom()
+            print(queryByRandom())
         }
     }
 }

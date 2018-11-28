@@ -13,8 +13,8 @@ object DBInfo {
     const val USER = "root"
     const val PASS = ""
 
-    const val DB = "hitokoto"
-    const val MT = "hitokoto"
+    const val DB = "`hitokoto`"
+    const val MT = "`hitokoto`"
     const val FT = "`from`"
-    const val CT = "creator"
+    const val CT = "`creator`"
 }
