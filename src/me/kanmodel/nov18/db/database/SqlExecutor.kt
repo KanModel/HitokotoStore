@@ -194,6 +194,28 @@ class SqlExecutor {
             return stmt.executeQuery(sql)
         }
 
+        fun queryByContent(content: String = ""): ResultSet? {
+            Class.forName(DBInfo.JDBC_DRIVER)
+            val conn = DriverManager.getConnection(
+                DBInfo.DB_URL,
+                DBInfo.USER,
+                DBInfo.PASS
+            )//数据库连接
+            val stmt = conn.createStatement()
+
+            val sql = if (content == "") {
+                //language=SQL
+                "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT},${DBInfo.DB}.${DBInfo.FT} " +
+                        "where ${DBInfo.MT}.fromID = ${DBInfo.FT}.fromID group by id;"
+            } else {
+                //language=SQL
+                "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT},${DBInfo.DB}.${DBInfo.FT} " +
+                        "where hitokoto regexp '$content' and ${DBInfo.MT}.fromID = ${DBInfo.FT}.fromID group by id;"
+            }
+
+            return stmt.executeQuery(sql)
+        }
+
         fun queryByID(id: Int = 0): ResultSet? {
             Class.forName(DBInfo.JDBC_DRIVER)
             val conn = DriverManager.getConnection(
@@ -213,6 +235,22 @@ class SqlExecutor {
                 "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT},${DBInfo.DB}.${DBInfo.FT} " +
                         "where `id`='$id' and ${DBInfo.MT}.fromID = ${DBInfo.FT}.fromID group by id;"
             }
+
+            return stmt.executeQuery(sql)
+        }
+
+        fun queryFromCount(): ResultSet? {
+            Class.forName(DBInfo.JDBC_DRIVER)
+            val conn = DriverManager.getConnection(
+                DBInfo.DB_URL,
+                DBInfo.USER,
+                DBInfo.PASS
+            )//数据库连接
+            val stmt = conn.createStatement()
+
+            val sql =
+            //language=SQL
+                "SELECT * FROM ${DBInfo.DB}.from_count order by `count` desc ;"
 
             return stmt.executeQuery(sql)
         }

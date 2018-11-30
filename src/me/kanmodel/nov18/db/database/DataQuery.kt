@@ -76,6 +76,36 @@ class DataQuery {
             return dataVector
         }
 
+        fun searchByContent(content: String = ""): Vector<Vector<Any>> {
+            val vec = Vector<Any>()
+            val dataVector = Vector<Vector<Any>>()
+
+            val rs = SqlExecutor.queryByContent(content)
+            if (rs != null) {
+                if (rs.next()) {
+                    var id = rs.getInt("id")
+                    var hitokoto = rs.getString("hitokoto")
+                    var from = rs.getString("from")
+                    vec.add(id)
+                    vec.add(hitokoto)
+                    vec.add(from)
+                    dataVector.add(vec)
+                    while (rs.next()) {
+                        val vec = Vector<Any>()
+                        id = rs.getInt("id")
+                        hitokoto = rs.getString("hitokoto")
+                        from = rs.getString("from")
+                        vec.add(id)
+                        vec.add(hitokoto)
+                        vec.add(from)
+                        dataVector.add(vec)
+                    }
+                    rs.close()
+                }
+            }
+            return dataVector
+        }
+
         fun queryByRandom(): Hitokoto? {
             val rs = SqlExecutor.queryRandom()
             if (rs!!.next()) {
@@ -90,6 +120,28 @@ class DataQuery {
             } else {
                 return null
             }
+        }
+
+        fun queryCount(): Vector<Vector<Any>> {
+            val vec = Vector<Any>()
+            val dataVector = Vector<Vector<Any>>()
+
+            val rs = SqlExecutor.queryFromCount()
+            if (rs != null) {
+                if (rs.next()) {
+                    vec.add(rs.getString("from"))
+                    vec.add(rs.getString("count"))
+                    dataVector.add(vec)
+                    while (rs.next()) {
+                        val vec = Vector<Any>()
+                        vec.add(rs.getString("from"))
+                        vec.add(rs.getString("count"))
+                        dataVector.add(vec)
+                    }
+                    rs.close()
+                }
+            }
+            return dataVector
         }
 
         @JvmStatic

@@ -12,7 +12,7 @@ import javax.swing.JTextPane
  * Date: 2018-11-29-13:58
  */
 /**
- * @description: todo
+ * @description: 随机显示hitokoto的面板
  * @author: KanModel
  * @create: 2018-11-29 13:58
  */

@@ -12,7 +12,7 @@ import java.util.regex.Pattern
 
 internal class TablePanel : JPanel() {
 
-    private val searchList = arrayOf("编号", "出自")
+    private val searchList = arrayOf("编号", "出自", "内容")
     private val searchBox = JComboBox(searchList)
     /**
      * 搜索类型
@@ -36,7 +36,7 @@ internal class TablePanel : JPanel() {
     }
     private val table: JTable = JTable(tableModel)
     private var dataVector: Vector<Vector<Any>>? = null
-    private var columnName: Vector<String>? = null
+    private var columnName = Vector<String>()//字段名
 
     init {
         val vBox = Box.createVerticalBox()
@@ -58,10 +58,9 @@ internal class TablePanel : JPanel() {
         tableModel.addTableModelListener(UpdateTableListener(tableModel, table))
 
         val jScrollPane = JScrollPane(table)
-        columnName = Vector()//字段名
-        columnName!!.add("编号")
-        columnName!!.add("Hitokoto")
-        columnName!!.add("出自")
+        columnName.add("编号")
+        columnName.add("Hitokoto")
+        columnName.add("出自")
         dataVector = Vector()
         dataVector = DataQuery.searchByFrom("")
         tableModel.setDataVector(dataVector, columnName)
@@ -121,6 +120,10 @@ internal class TablePanel : JPanel() {
                     dataVector = DataQuery.searchByFrom(content)
                     UpdateTableListener.clearHighLight(table)
                 }
+                SEARCH_BY_CONTENT -> {
+                    dataVector = DataQuery.searchByContent(content)
+                    UpdateTableListener.clearHighLight(table)
+                }
             }
             val newTableModel = table.model as DefaultTableModel//
             if (dataVector!!.size == 0) {
@@ -177,6 +180,7 @@ internal class TablePanel : JPanel() {
     companion object {
         private const val SEARCH_BY_ID = 0
         private const val SEARCH_BY_FROM = 1
+        private const val SEARCH_BY_CONTENT = 2
     }
 }
 

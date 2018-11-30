@@ -35,7 +35,14 @@ class MainFrame : JFrame("hitokoto - 一言库") {
 
         tabbedPane.add(hikotokoPanel, "欢迎")
         tabbedPane.add(tablePanel, "一言库")
+        tabbedPane.add(null, "出自统计")
         tabbedPane.add(adminPanel, "控制台")
+        tabbedPane.addChangeListener {
+            println("当前选中的选项卡index: ${tabbedPane.selectedIndex}")
+            when (tabbedPane.selectedIndex) {
+                2 -> tabbedPane.setComponentAt(2, CountTablePanel())
+            }
+        }
 
         add(tabbedPane)
 
@@ -46,7 +53,7 @@ class MainFrame : JFrame("hitokoto - 一言库") {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            SwingUtilities.invokeLater{
+            SwingUtilities.invokeLater {
                 MainFrame().isVisible = true
             }
         }
