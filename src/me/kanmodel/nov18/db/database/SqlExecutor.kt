@@ -255,31 +255,6 @@ class SqlExecutor {
             return stmt.executeQuery(sql)
         }
 
-        //        ID: String = ""
-        fun updateById(ID: String = "") {
-            Class.forName(DBInfo.JDBC_DRIVER)
-            val conn = DriverManager.getConnection(
-                DBInfo.DB_URL,
-                DBInfo.USER,
-                DBInfo.PASS
-            )//数据库连接
-            val stmt = conn.createStatement()
-
-            val sql = if (ID == "") {
-                //language=SQL
-                "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT};"
-            } else {
-                //language=SQL
-                "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT},${DBInfo.DB}.${DBInfo.FT} where `id`='$ID' and ${DBInfo.MT}.fromID = ${DBInfo.FT}.fromID;"
-//                "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT} where `id`='$ID';"
-            }
-            val rs = stmt.executeQuery(sql)
-            if (rs.next()) {
-
-
-            }
-        }
-
         fun deleteById(id: String = "") {
             Class.forName(DBInfo.JDBC_DRIVER)
             val conn = DriverManager.getConnection(
@@ -289,6 +264,19 @@ class SqlExecutor {
             )//数据库连接
             val stmt = conn.createStatement()
             stmt.execute("delete from ${DBInfo.DB}.${DBInfo.MT} where `id` = $id;")
+            stmt.close()
+            conn.close()
+        }
+
+        fun updateContentById(id: String, content: String) {
+            Class.forName(DBInfo.JDBC_DRIVER)
+            val conn = DriverManager.getConnection(
+                DBInfo.DB_URL,
+                DBInfo.USER,
+                DBInfo.PASS
+            )//数据库连接
+            val stmt = conn.createStatement()
+            stmt.execute("update ${DBInfo.DB}.${DBInfo.MT} set hitokoto = '$content' where `id` = $id;")
             stmt.close()
             conn.close()
         }

@@ -33,6 +33,10 @@ internal class TablePanel : JPanel() {
             }
             return returnValue
         }
+
+        override fun isCellEditable(row: Int, column: Int): Boolean {
+            return column == 1
+        }
     }
     private val table: JTable = JTable(tableModel)
     private var dataVector: Vector<Vector<Any>>? = null
@@ -52,7 +56,6 @@ internal class TablePanel : JPanel() {
     }
 
     private fun initTable() {
-        table
         table.preferredScrollableViewportSize = Dimension(800, 600)
         table.autoResizeMode = JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS
         tableModel.addTableModelListener(UpdateTableListener(tableModel, table))
@@ -71,12 +74,12 @@ internal class TablePanel : JPanel() {
     }
 
     private fun initButton() {
-        val addBtn = JButton("添加")
-        addBtn.addActionListener {
-            tableModel.insertRow(0, arrayOf<Any>(0, "", ""))
-        }
-        hBox0.add(addBtn)
-        hBox0.add(Box.createHorizontalStrut(20))
+//        val addBtn = JButton("添加")
+//        addBtn.addActionListener {
+//            tableModel.insertRow(0, arrayOf<Any>(0, "", ""))
+//        }
+//        hBox0.add(addBtn)
+//        hBox0.add(Box.createHorizontalStrut(20))//todo
 
         val deleteBtn = JButton("删除")
         deleteBtn.addActionListener {
@@ -95,8 +98,12 @@ internal class TablePanel : JPanel() {
         val updateBtn = JButton("更新")
         updateBtn.addActionListener {
             for (i in UpdateTableListener.updateList) {
-
+                val id = table.getValueAt(i.first, 0).toString()
+                val content = table.getValueAt(i.first, 1).toString()
+                println("$id $content")
+                SqlExecutor.updateContentById(id, content)
             }
+            UpdateTableListener.clearHighLight(table)
         }
         hBox0.add(updateBtn)
         hBox0.add(Box.createHorizontalStrut(20))

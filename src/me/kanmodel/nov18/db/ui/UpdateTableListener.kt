@@ -101,7 +101,7 @@ class UpdateTableListener(private val tableModel: TableModel, private val jTable
                         )
                     }
                 }
-                for (i in 0 until jTable.columnCount) {
+                for (i in 1 until jTable.columnCount) {
                     jTable.getColumn(jTable.getColumnName(i)).cellRenderer = tcr
                 }
                 jTable.repaint()

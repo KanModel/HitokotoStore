@@ -24,6 +24,10 @@ internal class CountTablePanel : JPanel() {
             }
             return returnValue
         }
+
+        override fun isCellEditable(row: Int, column: Int): Boolean {
+            return false
+        }
     }
     private val tableStyle = object : DefaultTableCellRenderer() {
         init {
@@ -46,7 +50,6 @@ internal class CountTablePanel : JPanel() {
         table.setDefaultRenderer(Any::class.java, tableStyle)
         table.preferredScrollableViewportSize = Dimension(800, 600)
         table.autoResizeMode = JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS
-        tableModel.addTableModelListener(UpdateTableListener(tableModel, table))
 
         val jScrollPane = JScrollPane(table)
 
