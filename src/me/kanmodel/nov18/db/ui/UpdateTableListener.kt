@@ -5,6 +5,7 @@ import javax.swing.event.TableModelEvent
 import javax.swing.event.TableModelListener
 import javax.swing.table.TableModel
 import java.awt.Component
+import java.awt.Font
 import javax.swing.JLabel
 import javax.swing.JTable
 import javax.swing.table.DefaultTableCellRenderer
@@ -52,17 +53,18 @@ class UpdateTableListener(private val tableModel: TableModel, private val jTable
 
     private fun changeHighLight(table: JTable = jTable, targetRow: Int, targetColumn: Int) {
         try {
-            val tcr = object : DefaultTableCellRenderer() {
+//            val tcr = object : DefaultTableCellRenderer() {
+            val tcr = object : TableCellTextAreaRenderer() {
                 override fun getTableCellRendererComponent(
-                    table: JTable?,
-                    value: Any, isSelected: Boolean, hasFocus: Boolean,
+                    table: JTable,
+                    value: Any?, isSelected: Boolean, hasFocus: Boolean,
                     row: Int, column: Int
                 ): Component {
 //                    background = if (row == targetRow) {
                     background = if (Pair(row, column) in updateList) {
-                        Color(206, 231, 255) //设置偶数行底色
+                        Color(206, 231, 255)
                     } else {
-                        Color.white //设置奇数行底色
+                        Color.white
                     }
                     //如果需要设置某一个Cell颜色，需要加上column过滤条件即可
                     return super.getTableCellRendererComponent(
@@ -72,7 +74,7 @@ class UpdateTableListener(private val tableModel: TableModel, private val jTable
                 }
             }
             if (targetColumn == 0) {
-                tcr.horizontalAlignment = JLabel.RIGHT
+//                tcr.horizontalAlignment = JLabel.RIGHT
             }
 //            for (i in 0 until table.columnCount) {
 //                table.getColumn(table.getColumnName(i)).cellRenderer = tcr
@@ -88,13 +90,14 @@ class UpdateTableListener(private val tableModel: TableModel, private val jTable
         fun clearHighLight(jTable: JTable) {
             updateList.clear()
             try {
-                val tcr = object : DefaultTableCellRenderer() {
+                val tcr = object : TableCellTextAreaRenderer() {
                     override fun getTableCellRendererComponent(
-                        table: JTable?,
-                        value: Any, isSelected: Boolean, hasFocus: Boolean,
+                        table: JTable,
+                        value: Any?, isSelected: Boolean, hasFocus: Boolean,
                         row: Int, column: Int
                     ): Component {
                         background = Color.white
+
                         return super.getTableCellRendererComponent(
                             table, value,
                             isSelected, hasFocus, row, column

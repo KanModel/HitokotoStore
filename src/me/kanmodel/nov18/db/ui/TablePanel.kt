@@ -41,6 +41,7 @@ internal class TablePanel : JPanel() {
     private val table: JTable = JTable(tableModel)
     private var dataVector: Vector<Vector<Any>>? = null
     private var columnName = Vector<String>()//字段名
+    private val tableStyle = object : TableCellTextAreaRenderer(){}
 
     init {
         val vBox = Box.createVerticalBox()
@@ -56,6 +57,7 @@ internal class TablePanel : JPanel() {
     }
 
     private fun initTable() {
+        table.setDefaultRenderer(Any::class.java, tableStyle)
         table.preferredScrollableViewportSize = Dimension(800, 600)
         table.autoResizeMode = JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS
         tableModel.addTableModelListener(UpdateTableListener(tableModel, table))
@@ -63,12 +65,14 @@ internal class TablePanel : JPanel() {
         val jScrollPane = JScrollPane(table)
         columnName.add("编号")
         columnName.add("Hitokoto")
+        columnName.add("种类")
         columnName.add("出自")
         dataVector = Vector()
         dataVector = DataQuery.searchByFrom("")
         tableModel.setDataVector(dataVector, columnName)
-        setColumn(table, 0, 60)
+        setColumn(table, 0, 50)
         setColumn(table, 1, 550)
+
 
         hBox1.add(jScrollPane)
     }
@@ -80,7 +84,6 @@ internal class TablePanel : JPanel() {
 //        }
 //        hBox0.add(addBtn)
 //        hBox0.add(Box.createHorizontalStrut(20))//todo
-
         val deleteBtn = JButton("删除")
         deleteBtn.addActionListener {
             val row = table.selectedRow
@@ -137,7 +140,7 @@ internal class TablePanel : JPanel() {
                 JOptionPane.showMessageDialog(this, "未找到对应数据", "警告", JOptionPane.WARNING_MESSAGE)
             } else {
                 newTableModel.setDataVector(dataVector, columnName)
-                setColumn(table, 0, 60)
+                setColumn(table, 0, 50)
                 setColumn(table, 1, 550)
                 table.updateUI()
             }
@@ -166,10 +169,10 @@ internal class TablePanel : JPanel() {
     }
 
     private fun setColumn(table: JTable, i: Int, width: Int) {
-        val firstColumn = table.columnModel.getColumn(i)
-        firstColumn.preferredWidth = width
-        firstColumn.maxWidth = width
-        firstColumn.minWidth = width
+        val targetColumn = table.columnModel.getColumn(i)
+        targetColumn.preferredWidth = width
+        targetColumn.maxWidth = width
+        targetColumn.minWidth = width
     }
 
     private fun deleteRow() {

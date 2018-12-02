@@ -1,14 +1,10 @@
 package me.kanmodel.nov18.db.ui
 
 import me.kanmodel.nov18.db.database.DataQuery
-import me.kanmodel.nov18.db.database.SqlExecutor
-
 import javax.swing.*
 import javax.swing.table.DefaultTableModel
 import java.awt.*
-import java.awt.event.ItemEvent
 import java.util.Vector
-import java.util.regex.Pattern
 import javax.swing.table.DefaultTableCellRenderer
 
 internal class CountTablePanel : JPanel() {
@@ -48,8 +44,9 @@ internal class CountTablePanel : JPanel() {
 
     private fun initTable() {
         table.setDefaultRenderer(Any::class.java, tableStyle)
-        table.preferredScrollableViewportSize = Dimension(800, 600)
+        table.preferredScrollableViewportSize = Dimension(800, 630)
         table.autoResizeMode = JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS
+        table.rowHeight = 25
 
         val jScrollPane = JScrollPane(table)
 

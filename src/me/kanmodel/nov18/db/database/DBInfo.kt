@@ -8,7 +8,7 @@ package me.kanmodel.nov18.db.database
  */
 object DBInfo {
     const val JDBC_DRIVER = "com.mysql.jdbc.Driver"
-    const val DB_URL = "jdbc:mysql://localhost:3306/test?useSSL=no"
+    const val DB_URL = "jdbc:mysql://localhost:3306/test?useSSL=no&useUnicode=true&characterEncoding=UTF-8"
 
     const val USER = "root"
     const val PASS = ""

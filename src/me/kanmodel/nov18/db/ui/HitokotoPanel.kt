@@ -28,7 +28,7 @@ internal class HitokotoPanel : JPanel(GridLayout(1, 1)) {
             }
         }
 
-        randomTextPane.font = Font("кнлЕ", Font.PLAIN, 30)
+        randomTextPane.font = Font("свт╡", Font.PLAIN, 30)
         randomTextPane.isEditable = false
         add(randomTextPane)
 

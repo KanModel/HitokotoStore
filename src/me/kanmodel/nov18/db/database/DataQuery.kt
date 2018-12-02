@@ -19,15 +19,16 @@ class DataQuery {
         fun searchById(id: Int = 0): Vector<Vector<Any>> {
             val vec = Vector<Any>()
             val dataVector = Vector<Vector<Any>>()
-
             val rs = SqlExecutor.queryByID(id)
             if (rs != null) {
                 if (rs.next()) {
                     var id = rs.getInt("id")
                     var hitokoto = rs.getString("hitokoto")
                     var from = rs.getString("from")
+                    var type = getType(rs.getString("type"))
                     vec.add(id)
                     vec.add(hitokoto)
+                    vec.add(type)
                     vec.add(from)
                     dataVector.add(vec)
                     while (rs.next()) {
@@ -35,8 +36,10 @@ class DataQuery {
                         id = rs.getInt("id")
                         hitokoto = rs.getString("hitokoto")
                         from = rs.getString("from")
+                        type = getType(rs.getString("type"))
                         vec.add(id)
                         vec.add(hitokoto)
+                        vec.add(type)
                         vec.add(from)
                         dataVector.add(vec)
                     }
@@ -56,8 +59,10 @@ class DataQuery {
                     var id = rs.getInt("id")
                     var hitokoto = rs.getString("hitokoto")
                     var from = rs.getString("from")
+                    var type = getType(rs.getString("type"))
                     vec.add(id)
                     vec.add(hitokoto)
+                    vec.add(type)
                     vec.add(from)
                     dataVector.add(vec)
                     while (rs.next()) {
@@ -65,8 +70,10 @@ class DataQuery {
                         id = rs.getInt("id")
                         hitokoto = rs.getString("hitokoto")
                         from = rs.getString("from")
+                        type = getType(rs.getString("type"))
                         vec.add(id)
                         vec.add(hitokoto)
+                        vec.add(type)
                         vec.add(from)
                         dataVector.add(vec)
                     }
@@ -86,8 +93,10 @@ class DataQuery {
                     var id = rs.getInt("id")
                     var hitokoto = rs.getString("hitokoto")
                     var from = rs.getString("from")
+                    var type = getType(rs.getString("type"))
                     vec.add(id)
                     vec.add(hitokoto)
+                    vec.add(type)
                     vec.add(from)
                     dataVector.add(vec)
                     while (rs.next()) {
@@ -95,8 +104,10 @@ class DataQuery {
                         id = rs.getInt("id")
                         hitokoto = rs.getString("hitokoto")
                         from = rs.getString("from")
+                        type = getType(rs.getString("type"))
                         vec.add(id)
                         vec.add(hitokoto)
+                        vec.add(type)
                         vec.add(from)
                         dataVector.add(vec)
                     }
@@ -108,17 +119,17 @@ class DataQuery {
 
         fun queryByRandom(): Hitokoto? {
             val rs = SqlExecutor.queryRandom()
-            if (rs!!.next()) {
-                return Hitokoto(
+            return if (rs!!.next()) {
+                Hitokoto(
                     rs.getInt("id"),
                     rs.getString("hitokoto"),
-                    rs.getString("type"),
+                    getType(rs.getString("type")),
                     rs.getString("from"),
                     rs.getString("creator"),
                     rs.getString("created_at")
                 )
             } else {
-                return null
+                null
             }
         }
 
@@ -142,6 +153,21 @@ class DataQuery {
                 }
             }
             return dataVector
+        }
+
+        fun getType(type: String): String {
+            return when (type) {
+                "a" -> "动漫"
+                "b" -> "漫画"
+                "c" -> "游戏"
+                "d" -> "小说"
+                "e" -> "原创"
+                "f" -> "来自网络"
+                "g" -> "其他"
+                else -> {
+                    "未知"
+                }
+            }
         }
 
         @JvmStatic
