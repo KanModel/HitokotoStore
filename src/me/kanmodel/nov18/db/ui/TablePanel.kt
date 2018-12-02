@@ -72,6 +72,7 @@ internal class TablePanel : JPanel() {
         tableModel.setDataVector(dataVector, columnName)
         setColumn(table, 0, 50)
         setColumn(table, 1, 550)
+        table.font = Font("свт╡", Font.PLAIN, 19)
 
 
         hBox1.add(jScrollPane)

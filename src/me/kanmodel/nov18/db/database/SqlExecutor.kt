@@ -2,6 +2,7 @@ package me.kanmodel.nov18.db.database
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException
 import me.kanmodel.nov18.db.spider.Hitokoto
+import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import java.sql.SQLException
@@ -155,20 +156,20 @@ class SqlExecutor {
             conn.close()
         }
 
+        lateinit var conn: Connection
         fun queryRandom(count: Int = 1): ResultSet? {
-            Class.forName(DBInfo.JDBC_DRIVER)
-            val conn = DriverManager.getConnection(
+            conn = DriverManager.getConnection(
                 DBInfo.DB_URL,
                 DBInfo.USER,
                 DBInfo.PASS
             )//数据库连接
+            Class.forName(DBInfo.JDBC_DRIVER)
             val stmt = conn.createStatement()
 
             //language=SQL
             val sql = "SELECT * FROM ${DBInfo.DB}.${DBInfo.MT},${DBInfo.DB}.${DBInfo.FT},${DBInfo.DB}.${DBInfo.CT} " +
                     "where ${DBInfo.MT}.fromID = ${DBInfo.FT}.fromID AND ${DBInfo.MT}.creatorID = ${DBInfo.CT}.creatorID " +
                     "ORDER BY rand() LIMIT $count;"
-
             return stmt.executeQuery(sql)
         }
 

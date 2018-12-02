@@ -119,17 +119,22 @@ class DataQuery {
 
         fun queryByRandom(): Hitokoto? {
             val rs = SqlExecutor.queryRandom()
-            return if (rs!!.next()) {
-                Hitokoto(
-                    rs.getInt("id"),
-                    rs.getString("hitokoto"),
-                    getType(rs.getString("type")),
-                    rs.getString("from"),
-                    rs.getString("creator"),
-                    rs.getString("created_at")
-                )
-            } else {
-                null
+            try {
+                return if (rs!!.next()) {
+                    Hitokoto(
+                        rs.getInt("id"),
+                        rs.getString("hitokoto"),
+                        getType(rs.getString("type")),
+                        rs.getString("from"),
+                        rs.getString("creator"),
+                        rs.getString("created_at")
+                    )
+                } else {
+                    null
+                }
+            }finally {
+                rs?.close()
+                SqlExecutor.conn.close()
             }
         }
 

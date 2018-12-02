@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities
 import javax.swing.UIManager
 import javax.swing.plaf.FontUIResource
 
-class MainFrame : JFrame("hitokoto - 一言库") {
+class MainFrame : JFrame(frameTitle) {
     init {
         initUI()
         initGlobalFont(Font("幼圆", Font.PLAIN, 19))
@@ -34,14 +34,14 @@ class MainFrame : JFrame("hitokoto - 一言库") {
         // 对象化面板
         val hikotokoPanel = HitokotoPanel()
         val tablePanel = TablePanel()
-        val adminPanel = AdminPanel()
+        val adminPanel = AdminPanel(this)
 
         tabbedPane.add(hikotokoPanel, "欢迎")
         tabbedPane.add(tablePanel, "一言库")
         tabbedPane.add(null, "出自统计")
         tabbedPane.add(adminPanel, "控制台")
         tabbedPane.addChangeListener {
-            println("当前选中的选项卡index: ${tabbedPane.selectedIndex}")
+//            println("当前选中的选项卡index: ${tabbedPane.selectedIndex}")
             when (tabbedPane.selectedIndex) {
                 2 -> tabbedPane.setComponentAt(2, CountTablePanel())
             }
@@ -53,6 +53,7 @@ class MainFrame : JFrame("hitokoto - 一言库") {
     }
 
     companion object {
+        val frameTitle = "hitokoto - 一言库"
 
         @JvmStatic
         fun main(args: Array<String>) {
